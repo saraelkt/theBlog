@@ -1,1 +1,59 @@
-<p>sign-up works!</p>
+<div class="flex justify-center items-center gap-20 mt-12">
+  <div class="w-[410px] flex justify-center items-center">
+    <div>
+      <h1
+        class="mt-12 mb-6 text-customGreen font-bold font-kohSantepheap text-4xl"
+      >
+        Sign In And Explore
+      </h1>
+
+      <form>
+        <div class="flex justify-center items-center">
+          <app-inputfield
+            label="Full Name"
+            type="text"
+            placeholder="Enter your full name"
+          ></app-inputfield>
+        </div>
+        <div class="flex justify-center items-center">
+          <app-inputfield
+            label="Email"
+            type="email"
+            placeholder="Enter your email"
+          ></app-inputfield>
+        </div>
+        <div class="flex justify-center items-center">
+          <app-inputfield
+            label="Password"
+            type="password"
+            placeholder="Enter your password"
+          ></app-inputfield>
+        </div>
+        <div class="flex justify-center items-center">
+          <app-button
+            type="submitt"
+            class="text-white"
+            text="Sign In"
+            color="bg-customGreen"
+          ></app-button>
+        </div>
+      </form>
+      <div
+        class="mt-6 ml-3 font-kaisei font-semibold flex justify-center items-center"
+      >
+        <label class="text-black">Already have an account? </label
+        ><button
+          class="text-customGreen cursor-pointer"
+          (click)="redirectToLogin()"
+        >
+          &nbsp; Log in here!
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="w-[410px]">
+    <div class="flex justify-end items-center">
+      <img src="brain.png" class="w-96" alt="brain" />
+    </div>
+  </div>
+</div>

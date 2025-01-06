@@ -7,12 +7,14 @@ import { ArticlesComponent } from './pages/articles/articles.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { WriteComponent } from './pages/write/write.component';
 import { ProfileeComponent } from './pages/profilee/profilee.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent }, // Page par défaut
   { path: 'our-story', component: OurStoryComponent },
 
   { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'write', component: WriteComponent },
   { path: 'articles', component: ArticlesComponent },
