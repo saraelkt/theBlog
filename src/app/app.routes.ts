@@ -7,6 +7,7 @@ import { ArticlesComponent } from './pages/articles/articles.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { WriteComponent } from './pages/write/write.component';
 import { ProfileeComponent } from './pages/profilee/profilee.component';
+import { SelectedArticleComponent } from './pages/selected-article/selected-article.component';
 
 export const routes: Routes = [
   { path: '', component: LandingPageComponent }, // Page par défaut
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent },
   { path: 'write', component: WriteComponent },
   { path: 'articles', component: ArticlesComponent },
+  { path: 'article', component: SelectedArticleComponent },
   { path: 'profilee', component: ProfileeComponent },
   { path: '**', redirectTo: '' },
 ];

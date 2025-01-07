@@ -1,0 +1,60 @@
+<nav class="bg-white shadow-sm mb-10 relative">
+    <div class="container mx-auto px-4 py-2 flex items-center">
+      <!-- Logo (à gauche) -->
+      <div class="flex-none">
+        <a class="text-2xl font-semibold text-black font-serif" routerLink="/">
+          Mindful Path
+        </a>
+      </div>
+  
+      <!-- Navigation Links (au centre) -->
+      <div class="absolute inset-x-0 flex justify-center">
+        <ul class="flex space-x-6">
+          <li>
+            <a
+              class="text-gray-700 hover:text-green-700 transition duration-300"
+              routerLink="/"
+              routerLinkActive="font-bold text-green-700"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-gray-700 hover:text-green-700 transition duration-300"
+              routerLink="/article"
+              routerLinkActive="font-bold text-green-700"
+            >
+              Article
+            </a>
+          </li>
+          <li>
+            <a
+              class="text-gray-700 hover:text-green-700 transition duration-300"
+              routerLink="/write"
+              routerLinkActive="font-bold text-green-700"
+            >
+              Write
+            </a>
+          </li>
+        </ul>
+      </div>
+  
+      <!-- Profile Icon (à droite) -->
+      <div class="ml-auto flex-none">
+        <a
+          class="flex items-center"
+          routerLink="/profilee"
+          routerLinkActive="font-bold text-green-700"
+        >
+          <img
+            [src]="getProfileImage()"
+            alt="User Profile"
+            class="w-8 h-8 rounded-full object-cover border border-gray-300"
+          />
+        </a>
+      </div>
+    </div>
+  </nav>
+  
