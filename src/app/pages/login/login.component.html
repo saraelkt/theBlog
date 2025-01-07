@@ -7,12 +7,13 @@
         Good To See You!
       </h1>
 
-      <form>
+      <form (ngSubmit)="login()">
         <div class="flex justify-center items-center">
           <app-inputfield
             label="Email"
             type="email"
             placeholder="Enter your email"
+            [(value)]="email"
           ></app-inputfield>
         </div>
         <div class="flex justify-center items-center">
@@ -20,23 +21,24 @@
             label="Password"
             type="password"
             placeholder="Enter your password"
+            [(value)]="password"
           ></app-inputfield>
         </div>
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center items-center mt-4">
           <app-button
-            type="submitt"
             class="text-white"
             text="Log In"
             color="bg-customGreen"
           ></app-button>
         </div>
       </form>
+
       <div
         class="mt-6 ml-3 font-kaisei font-semibold flex justify-center items-center"
       >
         <label class="text-black">Don't have an account ? </label
         ><button
-          class="text-customGreen cursor-pointer"
+          class="text-customGreen cursor-pointer hover:text-green-500"
           (click)="redirectToSignup()"
         >
           &nbsp; Sign up here!
@@ -46,7 +48,7 @@
   </div>
   <div class="w-[410px]">
     <div class="flex justify-center items-center">
-      <img src="brain.png" class="w-96" alt="brain" />
+      <img src="../../../assets/images/brain.png" class="w-96" alt="brain" />
     </div>
   </div>
 </div>

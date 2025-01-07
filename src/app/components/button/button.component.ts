@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 export class ButtonComponent implements OnInit {
   @Input() text: string = 'Default Text'; // Ajout d'une valeur par défaut
   @Input() color: string = 'bg-blue-500'; // Ajout d'une classe CSS par défaut
-  @Input() type: string = '';
+
   constructor() {}
 
   ngOnInit(): void {}
