@@ -7,7 +7,88 @@
         Good To See You!
       </h1>
 
-      <form (ngSubmit)="login()">
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <!-- Champ Email -->
+        <div class="mb-4">
+          <label
+            for="email"
+            class="block text-gray-700 font-bold font-serif text-lg mb-2"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <!-- Champ Password -->
+        <div class="mb-4">
+          <label
+            for="password"
+            class="block text-gray-700 font-bold mb-2 font-serif text-lg"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <!-- Bouton Submit -->
+        <div class="flex items-center justify-center">
+          <button
+            type="submit"
+            [disabled]="!loginForm.valid"
+            class="bg-customGreen hover:bg-green-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline mt-9 w-60 h-10 rounded-md text-xl font-serif"
+          >
+            Log In
+          </button>
+        </div>
+      </form>
+
+      <!-- Redirection vers Sign Up -->
+      <div
+        class="mt-6 ml-3 font-kaisei font-semibold flex justify-center items-center"
+      >
+        <label class="text-black">Don't have an account?</label>
+        <button
+          class="text-customGreen cursor-pointer hover:text-green-500 ml-1"
+          (click)="redirectToSignup()"
+        >
+          Sign up here!
+        </button>
+      </div>
+
+      <!-- Message d'erreur -->
+      <div *ngIf="errorMessage" class="text-red-500 mt-4 text-center">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+  <div class="w-[410px]">
+    <div class="flex justify-center items-center">
+      <img src="../../../assets/images/brain.png" class="w-96" alt="brain" />
+    </div>
+  </div>
+</div>
+<!-- <div class="flex justify-center items-center gap-20 mt-12">
+  <div class="w-[410px] flex justify-center items-center">
+    <div>
+      <h1
+        class="mt-12 mb-6 text-customGreen font-bold font-kohSantepheap text-4xl"
+      >
+        Good To See You!
+      </h1>
+
+      <form (ngSubmit)="login($event)" method="POST">
         <div class="flex justify-center items-center">
           <app-inputfield
             label="Email"
@@ -51,4 +132,4 @@
       <img src="../../../assets/images/brain.png" class="w-96" alt="brain" />
     </div>
   </div>
-</div>
+</div> -->

@@ -7,7 +7,98 @@
         Sign In And Explore
       </h1>
 
-      <form>
+      <form (ngSubmit)="signUp()">
+        <div class="flex flex-col gap-4">
+          <!-- Full Name -->
+          <label
+            for="fullName"
+            class="text-customGreen font-bold text-lg font-serif"
+            >Full Name</label
+          >
+          <input
+            id="fullName"
+            type="text"
+            placeholder="Enter your full name"
+            [(ngModel)]="fullName"
+            name="fullName"
+            required
+            class="border border-gray-300 rounded-md p-2 w-full"
+          />
+
+          <!-- Email -->
+          <label
+            for="email"
+            class="text-customGreen font-bold text-lg font-serif"
+            >Email</label
+          >
+          <input
+            id="email"
+            type="email"
+            placeholder="Enter your email"
+            [(ngModel)]="email"
+            name="email"
+            required
+            class="border border-gray-300 rounded-md p-2 w-full"
+          />
+
+          <!-- Password -->
+          <label
+            for="password"
+            class="text-customGreen font-bold font-serif text-lg"
+            >Password</label
+          >
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter your password"
+            [(ngModel)]="password"
+            name="password"
+            required
+            class="border border-gray-300 rounded-md p-2 w-full"
+          />
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            class="bg-customGreen text-white py-2 px-4 rounded-md hover:bg-green-600"
+          >
+            Sign In
+          </button>
+        </div>
+      </form>
+
+      <div
+        class="mt-6 ml-3 font-kaisei font-semibold flex justify-center items-center"
+      >
+        <label class="text-black">Already have an account? </label>
+        <button
+          class="text-customGreen cursor-pointer hover:text-green-500"
+          (click)="redirectToLogin()"
+        >
+          &nbsp; Log in here!
+        </button>
+      </div>
+      <div *ngIf="errorMessage" class="text-red-500 mt-4">
+        {{ errorMessage }}
+      </div>
+    </div>
+  </div>
+  <div class="w-[410px]">
+    <div class="flex justify-end items-center">
+      <img src="../../../assets/images/brain.png" class="w-96" alt="brain" />
+    </div>
+  </div>
+</div>
+<!-- <div class="flex justify-center items-center gap-20 mt-12">
+  <div class="w-[410px] flex justify-center items-center">
+    <div>
+      <h1
+        class="mt-12 mb-6 text-customGreen font-bold font-kohSantepheap text-4xl"
+      >
+        Sign In And Explore
+      </h1>
+
+      <form (ngSubmit)="signUp()">
         <div class="flex justify-center items-center">
           <app-inputfield
             label="Full Name"
@@ -31,7 +122,7 @@
         </div>
         <div class="flex justify-center items-center">
           <app-button
-            type="submitt"
+            type="submit"
             class="text-white"
             text="Sign In"
             color="bg-customGreen"
@@ -49,6 +140,9 @@
           &nbsp; Log in here!
         </button>
       </div>
+      <div *ngIf="errorMessage" class="text-red-500 mt-4">
+        {{ errorMessage }}
+      </div>
     </div>
   </div>
   <div class="w-[410px]">
@@ -56,4 +150,4 @@
       <img src="../../../assets/images/brain.png" class="w-96" alt="brain" />
     </div>
   </div>
-</div>
+</div> -->
