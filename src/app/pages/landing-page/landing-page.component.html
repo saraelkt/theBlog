@@ -1,1 +1,16 @@
-<p>landing-page works!</p>
+<app-landinheader></app-landinheader>
+<p class="font-bold text-kheder font-kavoon text-2xl absolute top-24 left-96">
+  Your Journey to Mental Wellness Starts Here
+</p>
+<div class="flex items-center justify-center">
+  <img src="landing.png" alt="landingImage" class="h-[500px] w-[1000px]" />
+</div>
+<div class="absolute bottom-16 left-[540px]">
+  <app-button
+    class="text-white font-bold hover:bg-green-600"
+    text="Start Reading"
+    color="bg-kheder"
+    (click)="redirectToHome()"
+  ></app-button>
+</div>
+<app-footer></app-footer>
