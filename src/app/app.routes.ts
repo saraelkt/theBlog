@@ -7,6 +7,7 @@ import { ArticlesComponent } from './pages/articles/articles.component';
 import { SignUpComponent } from './pages/sign-up/sign-up.component';
 import { WriteComponent } from './pages/write/write.component';
 import { ProfileeComponent } from './pages/profilee/profilee.component';
+import { SelectedArticleComponent } from './pages/selected-article/selected-article.component';
 import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent },
   { path: 'write', component: WriteComponent },
   { path: 'articles', component: ArticlesComponent },
+  { path: 'article', component: SelectedArticleComponent },
   { path: 'profilee', component: ProfileeComponent },
   { path: '**', redirectTo: '' },
 ];
