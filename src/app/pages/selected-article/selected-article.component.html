@@ -3,22 +3,22 @@
 <div class="container mx-auto px-6 pb-6">
   <!-- Article -->
   <app-article
-    [title]="articleData.title"
-    [author]="articleData.author"
-    [content]="articleData.content"
-    [publishedDate]="articleData.publishedDate"
-    [imageUrl]="articleData.imageUrl"
+  [title]="articleData?.title"
+  [author]="articleData?.author"
+  [content]="articleData?.content"
+  [publishedDate]="articleData?.published_at"
+  [imageUrl]="'http://127.0.0.1:8000/storage/' + articleData?.image_path"
   ></app-article>
 
   <!-- Section Auteur -->
   <app-author
-    [authorName]="articleData.authorDetails.name"
-    [authorBio]="articleData.authorDetails.bio"
-    [authorImage]="articleData.authorDetails.image"
+  [authorName]="articleData?.user.name"
+  [authorBio]="articleData?.user?.bio"
+  [authorImage]="'http://127.0.0.1:8000/storage/' + articleData?.user?.image"
   ></app-author>
 
   <!-- Section des commentaires -->
   <div class="mt-8">
-    <app-comment-section></app-comment-section>
+    <app-comment-section [articleId]="articleData?.id"></app-comment-section>
   </div>
 </div>

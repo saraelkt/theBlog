@@ -10,8 +10,18 @@ export class ArticleService {
 
   constructor(private http: HttpClient) {}
 
-  // Méthode pour récupérer les articles
+  // Méthode pour récupérer tous les articles
   getArticles(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  // Méthode pour récupérer un article par son ID
+ getArticleById(id: number): Observable<any> {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajouter le jeton
+  };
+
+  return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
+}
+
 }

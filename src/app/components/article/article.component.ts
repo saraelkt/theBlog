@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-article',
@@ -8,28 +9,76 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrl: './article.component.css',
 })
 export class ArticleComponent implements OnInit {
+  private _content: string = 'Default content'; // Stockage interne du contenu
+  private _publishedDate: string = ''; // Stockage interne de la date de publication
+
   @Input() title: string = 'Default Title'; // Titre de l'article
   @Input() author: string = 'Anonymous';   // Auteur de l'article
-  @Input() content: string = 'Default content'; // Contenu de l'article
-  @Input() publishedDate: string = '';    // Date de publication
   @Input() imageUrl: string = 'https://via.placeholder.com/800x400'; // URL de l'image
+  @Input() articleId!: number; // ID de l'article
 
+  @Input()
+  set content(value: string) {
+    this._content = value || 'Default content';
+    this.readingTime = this.calculateReadingTime(this._content); // Recalculer le temps de lecture
+  }
+  get content(): string {
+    return this._content;
+  }
+
+  @Input()
+  set publishedDate(value: string) {
+    this._publishedDate = value || '';
+    this.formattedDate = this.formatDate(this._publishedDate); // Recalculer la date formatée
+  }
+  get publishedDate(): string {
+    return this._publishedDate;
+  }
+
+  formattedDate: string = ''; // Date formatée pour affichage
   readingTime!: number; // Temps de lecture calculé automatiquement
   likes: number = 0; // Nombre de likes
   liked: boolean = false; // État du bouton Like
   comments: { id: number; user: string; text: string }[] = []; // Liste des commentaires
 
+  constructor(private http: HttpClient) {}
+
   // Initialisation du composant
   ngOnInit() {
+    // Calcul initial si les valeurs sont déjà fournies
     this.readingTime = this.calculateReadingTime(this.content);
+    this.formattedDate = this.formatDate(this.publishedDate);
+    // Récupérer le nombre de likes depuis le backend
+    this.http.get(`http://127.0.0.1:8000/api/articles/${this.articleId}`).subscribe(
+      (response: any) => {
+        this.likes = response.likes;
+        this.liked = response.userLiked; // Optionnel, si votre backend gère ça
+      }
+    );
   }
 
-  // Méthode pour calculer le temps de lecture
-  calculateReadingTime(content: string): number {
+  private calculateReadingTime(content: string): number {
     const wordsPerMinute = 200; // Vitesse moyenne de lecture
-    const textLength = content.split(/\s+/).length; // Nombre total de mots
-    return Math.ceil(textLength / wordsPerMinute); // Temps de lecture (arrondi au supérieur)
+    const words = content ? content.split(/\s+/).length : 0;
+    return Math.ceil(words / wordsPerMinute);
   }
+
+  private formatDate(dateString: string): string {
+    if (!dateString) {
+      return 'Invalid date';
+    }
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      return 'Invalid date';
+    }
+    // Options de formatage
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  }  
 
   // Méthode pour gérer les likes
   toggleLike() {
