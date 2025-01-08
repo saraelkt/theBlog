@@ -1,1 +1,14 @@
-<p>comment-section works!</p>
+<div class="w-full max-w-[900px] mx-auto space-y-6">
+    <!-- Titre des commentaires -->
+    <h2 class="text-xl font-bold text-gray-800">Comments</h2>
+  
+    <!-- Formulaire pour ajouter un commentaire -->
+    <div>
+      <app-comment-form (commentAdded)="onCommentAdded($event)"></app-comment-form>
+    </div>
+  
+    <!-- Liste des commentaires -->
+    <div *ngFor="let comment of comments">
+      <app-comment [comment]="comment"></app-comment>
+    </div>
+  </div>  
