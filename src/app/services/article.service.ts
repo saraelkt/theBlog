@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,9 +9,21 @@ export class ArticleService {
   private apiUrl = 'http://127.0.0.1:8000/api/articles'; // URL de l'API Laravel
 
   constructor(private http: HttpClient) {}
+  addArticle(articleData: FormData): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Assurez-vous que le token est stocké dans localStorage
+    });
 
-  // Méthode pour récupérer les articles
+    return this.http.post('http://127.0.0.1:8000/api/articles', articleData, {
+      headers,
+    });
+  }
+
   getArticles(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Assurez-vous que le token est dans le localStorage
+    });
+
+    return this.http.get<any[]>(this.apiUrl, { headers });
   }
 }
