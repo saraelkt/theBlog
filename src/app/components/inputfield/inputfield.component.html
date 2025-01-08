@@ -1,11 +1,16 @@
 <label
   class="inline-block mt-6 text-customGreen font-serif font-bold text-lg"
-  >{{ label }}</label
-><br />
+  for="input"
+>
+  {{ label }}
+</label>
+<br />
 <input
   id="input"
   [type]="type"
-  [value]="value"
   [placeholder]="placeholder"
+  [(ngModel)]="value"
+  (input)="onInputChange($event)"
   class="border border-1 w-80 rounded-md text-center border-customGreen"
-/><br />
+/>
+<br />

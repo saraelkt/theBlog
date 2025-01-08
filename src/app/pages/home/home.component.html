@@ -1,1 +1,19 @@
-<p>home works!</p>
+<app-header></app-header>
+<div *ngFor="let article of articles" class="article-card">
+  <div class="flex items-center">
+    <img
+      [src]="
+        article.image_path
+          ? 'http://127.0.0.1:8000/storage/' + article.image_path
+          : 'assets/default-image.png'
+      "
+      alt="Article Image"
+      class="w-16 h-16 rounded"
+    />
+    <div class="ml-4">
+      <h2 class="text-lg font-bold">{{ article.title }}</h2>
+      <p class="text-gray-600">{{ article.category }}</p>
+    </div>
+  </div>
+  <p class="mt-2 text-gray-800">{{ article.content }}</p>
+</div>
