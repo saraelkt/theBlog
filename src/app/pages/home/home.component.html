@@ -1,19 +1,91 @@
 <app-header></app-header>
-<div *ngFor="let article of articles" class="article-card">
-  <div class="flex items-center">
-    <img
-      [src]="
-        article.image_path
-          ? 'http://127.0.0.1:8000/storage/' + article.image_path
-          : 'assets/default-image.png'
-      "
-      alt="Article Image"
-      class="w-16 h-16 rounded"
-    />
-    <div class="ml-4">
-      <h2 class="text-lg font-bold">{{ article.title }}</h2>
-      <p class="text-gray-600">{{ article.category }}</p>
+<div class="container mx-auto mt-8">
+  <div class="flex flex-col items-center">
+    <h1 class="text-4xl font-bold mb-6">Mindful Path</h1>
+
+    <!-- Barre de recherche -->
+    <div class="w-full max-w-md mb-6">
+      <input
+        [(ngModel)]="searchTerm"
+        (input)="filterArticles()"
+        type="text"
+        placeholder="Search"
+        class="search-bar"
+      />
+    </div>
+
+    <!-- Boutons de filtre -->
+    <div class="flex space-x-4 mb-6">
+      <button
+        class="btn-category"
+        [class.active]="selectedCategory === 'All'"
+        (click)="filterByCategory('All')"
+      >
+        All
+      </button>
+      <button
+        class="btn-category"
+        [class.active]="selectedCategory === 'Popular'"
+        (click)="filterByCategory('Popular')"
+      >
+        Popular
+      </button>
+      <button
+        class="btn-category"
+        [class.active]="selectedCategory === 'Depression'"
+        (click)="filterByCategory('Depression')"
+      >
+        Depression
+      </button>
+      <button
+        class="btn-category"
+        [class.active]="selectedCategory === 'Anxiety'"
+        (click)="filterByCategory('Anxiety')"
+      >
+        Anxiety
+      </button>
+      <button
+        class="btn-category"
+        [class.active]="selectedCategory === 'Trauma & Healing'"
+        (click)="filterByCategory('Trauma & Healing')"
+      >
+        Trauma & Healing
+      </button>
+    </div>
+
+    <!-- Liste des articles -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        *ngFor="let article of filteredArticles"
+        class="article-card border rounded-lg shadow-lg p-4"
+      >
+        <div class="flex items-start">
+          <img
+            [src]="
+              article.image_path
+                ? 'http://127.0.0.1:8000/storage/' + article.image_path
+                : 'assets/default-image.png'
+            "
+            alt="Article Image"
+            class="w-24 h-24 rounded-lg object-cover mr-4"
+          />
+          <div>
+            <h2 class="text-xl font-semibold">{{ article.title }}</h2>
+            <p class="text-gray-500 italic mb-2">{{ article.category }}</p>
+            <p class="text-gray-700 text-sm line-clamp-3">
+              {{ article.content }}
+            </p>
+            <div class="mt-4 flex items-center">
+              <span class="text-green-600 font-medium"
+                >by {{ article.author }}</span
+              >
+              <span class="ml-auto text-gray-500 text-sm">{{
+                article.published_at | date : "longDate"
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <p class="mt-2 text-gray-800">{{ article.content }}</p>
 </div>
