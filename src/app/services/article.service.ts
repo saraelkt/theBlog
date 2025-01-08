@@ -18,7 +18,6 @@ export class ArticleService {
       headers,
     });
   }
-
   getArticles(): Observable<any[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`, // Assurez-vous que le token est dans le localStorage
@@ -26,4 +25,14 @@ export class ArticleService {
 
     return this.http.get<any[]>(this.apiUrl, { headers });
   }
+
+  // Méthode pour récupérer un article par son ID
+ getArticleById(id: number): Observable<any> {
+  const headers = {
+    Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajouter le jeton
+  };
+
+  return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
+}
+
 }

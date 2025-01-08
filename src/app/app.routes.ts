@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'sign-up', component: SignUpComponent },
   { path: 'write', component: WriteComponent },
   { path: 'articles', component: ArticlesComponent },
-  { path: 'article', component: SelectedArticleComponent },
+  { path: 'article/:id', component: SelectedArticleComponent },
   { path: 'profilee', component: ProfileeComponent },
   { path: '**', redirectTo: '' },
 ];

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { CommentService } from '../../services/comment.service';
 import { CommonModule } from '@angular/common';
 import { CommentComponent } from '../comment/comment.component';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
@@ -10,34 +11,60 @@ import { CommentFormComponent } from '../comment-form/comment-form.component';
   templateUrl: './comment-section.component.html',
   styleUrls: ['./comment-section.component.css'],
 })
-export class CommentSectionComponent {
-  // Exemple de données pour les commentaires
-  comments = [
-    {
-      user: 'Tiffany',
-      date: 'March 15, 2025',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      likes: 5,
-      replies: [
-        {
-          user: 'Jack',
-          date: 'March 16, 2025',
-          content: 'I agree with you!',
-          likes: 2,
-          replies: [],
-        },
-      ],
-    },
-  ];
+export class CommentSectionComponent implements OnInit {
+  private _articleId!: number; // Stockage interne de l'ID de l'article
 
-  // Méthode appelée lors de l'ajout d'un nouveau commentaire
-  onCommentAdded(newComment: string) {
-    this.comments.push({
-      user: 'Anonymous',
-      date: new Date().toLocaleDateString(),
-      content: newComment,
-      likes: 0,
-      replies: [],
-    });
+  @Input()
+  set articleId(value: number) {
+    if (value !== this._articleId) {
+      this._articleId = value;
+      console.log('articleId mis à jour :', this._articleId);
+      this.loadComments(); // Charger les commentaires à chaque mise à jour de l'ID
+    }
+  }
+
+  get articleId(): number {
+    return this._articleId;
+  }
+
+  comments: any[] = []; // Liste des commentaires
+
+  constructor(private commentService: CommentService) {}
+
+  ngOnInit(): void {
+    // Si `articleId` est défini avant l'initialisation, les commentaires seront déjà chargés.
+    if (this._articleId) {
+      this.loadComments();
+    }
+  }
+
+  loadComments(): void {
+    console.log('Chargement des commentaires pour articleId :', this._articleId);
+    this.commentService.getComments(this._articleId).subscribe(
+      (comments) => {
+        this.comments = comments;
+        console.log('Commentaires chargés :', this.comments);
+      },
+      (error) => {
+        console.error('Erreur lors du chargement des commentaires :', error);
+      }
+    );
+  }
+
+  addComment(content: string): void {
+    const newComment = {
+      article_id: this._articleId,
+      content: content,
+    };
+
+    this.commentService.addComment(newComment).subscribe(
+      (comment) => {
+        this.comments.unshift(comment); // Ajouter le commentaire en haut de la liste
+        console.log('Nouveau commentaire ajouté :', comment);
+      },
+      (error) => {
+        console.error('Erreur lors de l\'ajout du commentaire :', error);
+      }
+    );
   }
 }
