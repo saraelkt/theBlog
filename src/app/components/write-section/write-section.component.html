@@ -1,42 +1,54 @@
 <div class="relative w-full max-w-[900px] mx-auto bg-green-50 p-6 rounded-lg shadow-md space-y-4 mb-10">
-    <!-- Champ pour le titre -->
-    <input
-      [(ngModel)]="title"
-      type="text"
-      placeholder="Title"
-      class="w-full text-2xl font-semibold border-b border-gray-300 focus:outline-none bg-transparent pb-2"
-    />
-  
-    <!-- Champ pour le contenu -->
-    <textarea
-      [(ngModel)]="content"
-      placeholder="Write your story"
-      class="w-full h-80 text-gray-700 bg-transparent resize-none border-b border-gray-300 focus:outline-none overflow-hidden pb-3"
-      (input)="adjustHeight($event)"
-    ></textarea>
-  
-    <!-- Section pour ajouter une image -->
-    <div class="flex items-center justify-between">
-      <label class="flex items-center cursor-pointer">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="w-6 h-6 text-green-600 mr-2"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        <input type="file" class="hidden" (change)="handleFileInput($event)" />
-        <span class="text-sm text-green-700">Add Cover Photo</span>
-      </label>
-    </div>
-  
+  <!-- Champ pour le titre -->
+  <input
+    [(ngModel)]="title"
+    type="text"
+    placeholder="Title"
+    class="w-full text-2xl font-semibold border-b border-gray-300 focus:outline-none bg-transparent pb-2"
+  />
+
+  <!-- Champ pour le contenu -->
+  <textarea
+    [(ngModel)]="content"
+    placeholder="Write your story"
+    class="w-full h-80 text-gray-700 bg-transparent resize-none border-b border-gray-300 focus:outline-none overflow-hidden pb-3"
+    (input)="adjustHeight($event)"
+  ></textarea>
+
+  <!-- Section pour ajouter une image, sélectionner une catégorie, et publier -->
+  <div class="flex items-center">
+    <!-- Ajouter une image -->
+    <label class="flex items-center cursor-pointer">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6 text-green-600 mr-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+      <input type="file" class="hidden" (change)="handleFileInput($event)" />
+      <span class="text-sm text-green-700">Add Cover Photo</span>
+    </label>
+
+    <!-- Sélection de la catégorie -->
+    <select
+      [(ngModel)]="selectedCategory"
+      class="font-normal ml-6 border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+    >
+      <option value="" disabled selected>Select Category</option>
+      <option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </option>
+    </select>
+
     <!-- Bouton Publier -->
     <button
       (click)="publishArticle()"
-      class="absolute bottom-3 right-3 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+      class="ml-auto px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
     >
       Publish
     </button>
-  </div>  
+  </div>
+</div>
