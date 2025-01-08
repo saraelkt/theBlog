@@ -40,6 +40,7 @@ export class WriteSectionComponent {
       return;
     }
     console.log('Titre :', this.title);
+    console.log('author :', this.author);
     console.log('Catégorie :', this.selectedCategory);
     console.log('Contenu :', this.content);
     console.log('Image :', this.image?.name || "Pas d'image");
@@ -49,6 +50,8 @@ export class WriteSectionComponent {
     formData.append('content', this.content);
     formData.append('author', this.author);
     formData.append('category', this.selectedCategory);
+    const currentDate = new Date().toISOString().split('T')[0]; // Format ISO (YYYY-MM-DD)
+    formData.append('published_at', currentDate);
     if (this.image) {
       formData.append('image_path', this.image);
     }
