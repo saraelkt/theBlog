@@ -20,7 +20,7 @@ export class HeaderComponent {
   getProfileImage(): string {
     return this.userProfileImage
       ? this.userProfileImage
-      : 'assets/images/default-profile.png'; // Image par défaut
+      : 'assets/imagesSafae/default-profile.png'; // Image par défaut
   }
 
   // Méthode pour basculer le menu déroulant
