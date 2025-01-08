@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class LandingPageComponent {
   constructor(private router: Router) {}
 
-  redirectToHome(): void {
-    this.router.navigate(['/home']); // Navigue vers la page de connexion
+  redirectToLogIn(): void {
+    this.router.navigate(['/login']); // Navigue vers la page de connexion
   }
 }
