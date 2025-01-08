@@ -1,9 +1,24 @@
 <app-header></app-header>
-<app-article
+
+<div class="container mx-auto px-6 pb-6">
+  <!-- Article -->
+  <app-article
     [title]="articleData.title"
     [author]="articleData.author"
     [content]="articleData.content"
     [publishedDate]="articleData.publishedDate"
-    [readingTime]="articleData.readingTime"
     [imageUrl]="articleData.imageUrl"
   ></app-article>
+
+  <!-- Section Auteur -->
+  <app-author
+    [authorName]="articleData.authorDetails.name"
+    [authorBio]="articleData.authorDetails.bio"
+    [authorImage]="articleData.authorDetails.image"
+  ></app-author>
+
+  <!-- Section des commentaires -->
+  <div class="mt-8">
+    <app-comment-section></app-comment-section>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+input {
+    font-size: 1rem;
+    padding: 0.5rem;
+  }
+  
+  button {
+    font-size: 0.875rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+    
