@@ -1,0 +1,38 @@
+button {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; /* Espacement entre l'icône et le texte */
+    cursor: pointer;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  button:hover {
+    color: #2f855a; /* Couleur verte au survol */
+  }
+  
+  svg {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  button:hover svg {
+    transform: scale(1.1); /* Agrandit légèrement l'icône au survol */
+  }
+  
+  .fill-gray-300 {
+    fill: #d1d5db; /* Gris clair pour l'état non-liké */
+  }
+  
+  .fill-red-500 {
+    fill: #f56565; /* Rouge pour l'état liké */
+  }
+
+  div[ng-reflect-comment] {
+    margin-bottom: 1rem !important; /* Ajoute une marge forcée entre les commentaires */
+  }
+  
+  div[ng-reflect-comment]:last-child {
+    margin-bottom: 0 !important; /* Supprime la marge après le dernier élément */
+  }
+  
+
+    
