@@ -8,7 +8,7 @@
       </h1>
 
       <form (ngSubmit)="signUp()">
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-2">
           <!-- Full Name -->
           <label
             for="fullName"
@@ -54,7 +54,7 @@
             [(ngModel)]="password"
             name="password"
             required
-            class="border border-gray-300 rounded-md p-2 w-full"
+            class="border border-gray-300 rounded-md p-2 w-full mb-6" 
           />
 
           <!-- Submit Button -->
@@ -70,7 +70,7 @@
       <div
         class="mt-6 ml-3 font-kaisei font-semibold flex justify-center items-center"
       >
-        <label class="text-black">Already have an account? </label>
+        <label class="text-black font-normal text-base"> Already have an account? </label>
         <button
           class="text-customGreen cursor-pointer hover:text-green-500"
           (click)="redirectToLogin()"
