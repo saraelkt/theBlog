@@ -35,4 +35,14 @@ export class ArticleService {
   return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
 }
 
+  // Méthode pour supprimer un article par son ID
+deleteArticle(articleId: number): Observable<any> {
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+  });
+
+  return this.http.delete(`${this.apiUrl}/${articleId}`, { headers });
+}
+
+
 }

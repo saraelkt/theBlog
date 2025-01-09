@@ -2,9 +2,14 @@
 
 <!-- Profile Section -->
 <div class="relative w-[1024px] max-w-[90%] mx-auto mt-8 p-6 bg-green-50 rounded-lg shadow-lg">
-    <button
-    (click)="editProfile()"
-    class="absolute top-4 right-4 text-sm text-green-700 flex items-center hover:underline"
+  <!-- Edit Button -->
+  <button
+    (click)="toggleEdit()"
+    class="absolute top-4 right-4 text-sm flex items-center px-4 py-2 rounded-lg transition-all duration-200"
+    [ngClass]="{
+      'bg-green-200 text-white hover:bg-green-300': !isEditing,
+      'bg-blue-600 text-white hover:bg-blue-700': isEditing
+    }"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -25,69 +30,113 @@
         d="M19.5 12.75V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.75A2.25 2.25 0 016.75 4.5h6.75"
       />
     </svg>
-    Edit profile
+    {{ isEditing ? 'Save Changes' : 'Edit Profile' }}
   </button>
-  <div class="flex items-center space-x-6">
+
+  <!-- Profile Content -->
+  <div class="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-6">
+    <!-- Profile Image -->
     <div class="relative flex-shrink-0 flex-grow-0">
-        <img
-          [src]="userProfile.profileImage"
-          alt="Profile"
-          class="w-32 h-32 rounded-full object-cover cursor-pointer"
-          (click)="fileInput.click()"
-        />
-        <input
-          type="file"
-          accept="image/*"
-          #fileInput
-          (change)="onFileSelected($event)"
-          class="hidden"
-        />
-      </div>      
-    <div>
-      <h2 class="text-3xl font-bold text-gray-800">{{ userProfile.name }}</h2>
-      <p class="text-gray-600 mt-2">{{ userProfile.about }}</p>
+      <img
+        [src]="userProfile.profileImage"
+        alt="Profile"
+        class="w-32 h-32 rounded-full object-cover cursor-pointer border-4 border-gray-200 hover:border-green-500 transition-all duration-200"
+        (click)="fileInput.click()"
+      />
+      <input
+        type="file"
+        accept="image/*"
+        #fileInput
+        (change)="onFileSelected($event)"
+        class="hidden"
+      />
+    </div>
+
+    <!-- Profile Info -->
+    <div class="w-full flex flex-col items-center lg:items-start text-center lg:text-left lg:justify-center mt-4 lg:mt-0">
+      <!-- Name -->
+      <input
+        *ngIf="isEditing"
+        [(ngModel)]="userProfile.name"
+        class="text-3xl font-bold text-gray-800 border border-green-300 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
+        placeholder="Enter your name"
+      />
+      <h2 *ngIf="!isEditing" class="text-3xl font-bold text-gray-800">{{ userProfile.name }}</h2>
+
+      <!-- Bio Section -->
+      <div class="mt-4 w-full">
+        <label
+          *ngIf="isEditing"
+          for="bio"
+          class="block text-sm font-medium text-gray-600 mb-1"
+        >
+          Write something about yourself:
+        </label>
+        <textarea
+          *ngIf="isEditing"
+          [(ngModel)]="userProfile.about"
+          id="bio"
+          maxlength="500"
+          class="w-full border border-green-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
+          placeholder="Your bio goes here (max 500 characters)..."
+        ></textarea>
+        <p *ngIf="!isEditing" class="p-3 text-gray-700 mt-2p-2 rounded-lg shadow">
+          {{ userProfile.about || 'No bio provided yet. Click Edit Profile to add.' }}
+        </p>
+      </div>
+
+      <!-- Email and Password -->
+      <div class="flex flex-col lg:flex-row lg:space-x-40 mt-4 w-full lg:w-auto">
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="userProfile.email"
+            [readonly]="!isEditing"
+            class="w-[300px] border border-green-300 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4 lg:mt-0">
+          <label for="password" class="block text-sm font-medium text-gray-600">Password</label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="userProfile.password"
+            [readonly]="!isEditing"
+            class="w-[300px] border border-green-300 rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-green-500 transition-all duration-200"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
+
+
 <!-- Articles Section -->
-<div class="w-[1024px] max-w-[90%] mx-auto mt-8">
+<div class="w-[1024px] max-w-[90%] mx-auto mt-8 mb-8">
   <h3 class="text-2xl font-semibold text-gray-800">My articles</h3>
   <div
     *ngFor="let article of articles"
     class="mt-6 bg-green-50 p-4 rounded-lg shadow-lg flex relative"
   >
     <img
-      [src]="article.imageUrl"
+      [src]="article.image"
       alt="Article Thumbnail"
       class="w-32 h-32 rounded-lg object-cover"
     />
     <div class="ml-4 flex-grow">
       <h4 class="text-lg font-bold text-gray-800">{{ article.title }}</h4>
-      <p class="text-gray-600 mt-2 line-clamp-2">{{ article.content }}</p>
+      <div class="mb-10">
+        <p class="text-gray-600 mt-2 line-clamp-2">{{ article.content }}</p>
+      </div>
       <p class="text-sm text-gray-400 mt-4">{{ article.date }}</p>
     </div>
     <div class="absolute bottom-4 right-4 flex space-x-2">
-      <button
-        (click)="editArticle(article.id)"
-        class="px-4 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700 flex items-center"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-5 h-5 mr-1"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M16.862 4.487l2.651 2.651m-1.768-1.768L8.487 14.647a2.25 2.25 0 00-.657 1.05l-.493 1.975 1.975-.493a2.25 2.25 0 001.05-.657l9.257-9.257z"
-          />
-        </svg>
-        Edit post
-      </button>
       <button
         (click)="deleteArticle(article.id)"
         class="px-4 py-2 text-sm text-white bg-red-600 rounded-lg hover:bg-red-700 flex items-center"
@@ -104,9 +153,9 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             d="M9.75 9.75L14.25 14.25M14.25 9.75L9.75 14.25M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-        />
-      </svg>
-      Delete
+          />
+        </svg>
+        Delete
       </button>
     </div>
   </div>
