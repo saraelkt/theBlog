@@ -18,6 +18,7 @@ export class CommentService {
       return new HttpHeaders();
     }
     return new HttpHeaders({
+      'Content-Type': 'application/json', // Ajoutez ce header
       Authorization: `Bearer ${token}`,
     });
   }

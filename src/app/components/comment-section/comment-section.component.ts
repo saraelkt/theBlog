@@ -16,14 +16,13 @@ export class CommentSectionComponent implements OnInit {
 
   @Input()
   set articleId(value: number | null | undefined) {
-    if (value) {
+    console.log('Setter appelé avec :', value); // Log la valeur reçue
+    if (value !== null && value !== undefined) {
       this._articleId = value;
-      console.log('articleId mis à jour :', this._articleId);
+      console.log('Article ID mis à jour :', this._articleId);
       this.loadComments();
     } else {
-      console.warn(
-        'articleId est null ou undefined. Définir une valeur par défaut ou ignorer.'
-      );
+      console.error('articleId est null ou undefined.');
     }
   }
 
@@ -58,17 +57,26 @@ export class CommentSectionComponent implements OnInit {
   }
 
   addComment(event: { content: string; parent_id: number | null }): void {
+    if (!this._articleId) {
+      console.error(
+        "article_id est undefined. Vérifiez l'assignation de articleId."
+      );
+      return;
+    }
+
     const newComment = {
-      article_id: this._articleId,
+      article_id: this._articleId, // Assurez-vous que _articleId est défini
       ...event,
     };
+
+    console.log('Données envoyées :', newComment); // Vérifiez ici les données avant l'appel au service
 
     const tempComment = {
       ...newComment,
       id: Date.now(),
       created_at: new Date().toISOString(),
-      user: { name: 'You' }, // Utilisateur fictif
-      replies: [], // Liste vide pour les réponses
+      user: { name: 'You' },
+      replies: [],
     };
 
     this.comments.unshift(tempComment);

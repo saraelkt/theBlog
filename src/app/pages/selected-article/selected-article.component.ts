@@ -22,6 +22,7 @@ import { ArticleService } from '../../services/article.service';
 })
 export class SelectedArticleComponent implements OnInit {
   articleData: any;
+  selectedArticleId!: number; // Déclarez une propriété pour l'ID
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +35,8 @@ export class SelectedArticleComponent implements OnInit {
     const articleId = this.route.snapshot.paramMap.get('id');
     console.log('Article ID:', articleId); // Debug
     if (articleId) {
-      this.articleService.getArticleById(+articleId).subscribe(
+      this.selectedArticleId = +articleId; // Assignez l'ID récupéré
+      this.articleService.getArticleById(this.selectedArticleId).subscribe(
         (data) => {
           console.log("Données de l'article récupérées :", data); // Debug
           this.articleData = data;
