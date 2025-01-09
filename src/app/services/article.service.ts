@@ -27,22 +27,20 @@ export class ArticleService {
   }
 
   // Méthode pour récupérer un article par son ID
- getArticleById(id: number): Observable<any> {
-  const headers = {
-    Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajouter le jeton
-  };
+  getArticleById(id: number): Observable<any> {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajouter le jeton
+    };
 
-  return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
-}
+    return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
+  }
 
   // Méthode pour supprimer un article par son ID
-deleteArticle(articleId: number): Observable<any> {
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-  });
+  deleteArticle(articleId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
 
-  return this.http.delete(`${this.apiUrl}/${articleId}`, { headers });
-}
-
-
+    return this.http.delete(`${this.apiUrl}/${articleId}`, { headers });
+  }
 }

@@ -71,11 +71,15 @@
           <div>
             <h2 class="text-xl font-semibold">{{ article.title }}</h2>
             <p class="text-gray-500 italic mb-2">{{ article.category }}</p>
-            <p class="text-gray-700 text-sm line-clamp-3">{{ article.content }}</p>
-            <div class="mt-4 flex items-center">
-              <span class="text-green-600 font-medium">by {{ article.author }}</span>
+            <p class="text-gray-700 text-sm line-clamp-3">
+              {{ article.content }}
+            </p>
+            <div class="mt-4 flex items-center gap-2">
+              <span class="text-green-600 font-medium"
+                >by {{ article.author }}</span
+              >
               <span class="ml-auto text-gray-500 text-sm">{{
-                article.published_at | date : 'longDate'
+                article.published_at | date : "longDate"
               }}</span>
             </div>
           </div>
