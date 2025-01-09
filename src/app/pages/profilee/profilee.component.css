@@ -1,0 +1,5 @@
+img.rounded-full {
+    width: 8rem !important; /* Forcer une largeur fixe */
+    height: 8rem !important;
+    object-fit: cover;
+  }  
