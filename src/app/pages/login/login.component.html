@@ -26,7 +26,7 @@
         </div>
 
         <!-- Champ Password -->
-        <div class="mb-4">
+        <div class="mb-6">
           <label
             for="password"
             class="block text-gray-700 font-bold mb-2 font-serif text-lg"
@@ -47,7 +47,7 @@
           <button
             type="submit"
             [disabled]="!loginForm.valid"
-            class="bg-customGreen hover:bg-green-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline mt-9 w-60 h-10 rounded-md text-xl font-serif"
+            class="w-full bg-customGreen hover:bg-green-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline h-10 rounded-md text-xl font-serif"
           >
             Log In
           </button>
@@ -58,7 +58,7 @@
       <div
         class="mt-6 ml-3 font-kaisei font-semibold flex justify-center items-center"
       >
-        <label class="text-black">Don't have an account?</label>
+        <label class="text-black font-normal text-base"> Don't have an account?</label>
         <button
           class="text-customGreen cursor-pointer hover:text-green-500 ml-1"
           (click)="redirectToSignup()"
