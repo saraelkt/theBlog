@@ -67,4 +67,9 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
   }
+
+  // Récupérer l'utilisateur connecté
+  getAuthenticatedUser(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/user`);
+  }
 }
