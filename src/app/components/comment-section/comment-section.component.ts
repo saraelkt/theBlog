@@ -15,11 +15,15 @@ export class CommentSectionComponent implements OnInit {
   private _articleId!: number; // Stockage interne de l'ID de l'article
 
   @Input()
-  set articleId(value: number) {
-    if (value !== this._articleId) {
+  set articleId(value: number | null | undefined) {
+    if (value) {
       this._articleId = value;
       console.log('articleId mis à jour :', this._articleId);
-      this.loadComments(); // Charger les commentaires à chaque mise à jour de l'ID
+      this.loadComments();
+    } else {
+      console.warn(
+        'articleId est null ou undefined. Définir une valeur par défaut ou ignorer.'
+      );
     }
   }
 
@@ -39,31 +43,44 @@ export class CommentSectionComponent implements OnInit {
   }
 
   loadComments(): void {
-    console.log('Chargement des commentaires pour articleId :', this._articleId);
-    this.commentService.getComments(this._articleId).subscribe(
-      (comments) => {
-        this.comments = comments;
-        console.log('Commentaires chargés :', this.comments);
-      },
-      (error) => {
-        console.error('Erreur lors du chargement des commentaires :', error);
-      }
-    );
+    if (this._articleId) {
+      this.commentService.getComments(this._articleId).subscribe(
+        (comments: any[]) => {
+          this.comments = comments;
+        },
+        (error) => {
+          console.error('Erreur lors du chargement des commentaires :', error);
+        }
+      );
+    } else {
+      console.warn('articleId est requis pour charger les commentaires.');
+    }
   }
 
-  addComment(content: string): void {
+  addComment(event: { content: string; parent_id: number | null }): void {
     const newComment = {
       article_id: this._articleId,
-      content: content,
+      ...event,
     };
+
+    const tempComment = {
+      ...newComment,
+      id: Date.now(),
+      created_at: new Date().toISOString(),
+      user: { name: 'You' }, // Utilisateur fictif
+      replies: [], // Liste vide pour les réponses
+    };
+
+    this.comments.unshift(tempComment);
 
     this.commentService.addComment(newComment).subscribe(
       (comment) => {
-        this.comments.unshift(comment); // Ajouter le commentaire en haut de la liste
-        console.log('Nouveau commentaire ajouté :', comment);
+        const index = this.comments.findIndex((c) => c.id === tempComment.id);
+        if (index > -1) this.comments[index] = comment;
       },
       (error) => {
-        console.error('Erreur lors de l\'ajout du commentaire :', error);
+        console.error("Erreur lors de l'ajout du commentaire :", error);
+        this.comments = this.comments.filter((c) => c.id !== tempComment.id);
       }
     );
   }

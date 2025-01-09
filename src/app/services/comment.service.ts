@@ -8,20 +8,35 @@ import { Observable } from 'rxjs';
 export class CommentService {
   private apiUrl = 'http://127.0.0.1:8000/api';
 
-  // Déclare les headers comme une propriété de la classe
-  private headers = new HttpHeaders({
-    Authorization: 'Bearer TON_TOKEN', // Remplace TON_TOKEN par le token réel
-  });
-
   constructor(private http: HttpClient) {}
+
+  // Méthode pour récupérer le token dynamiquement
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token'); // Assurez-vous que le token est bien enregistré
+    if (!token) {
+      console.error("Token d'authentification manquant.");
+      return new HttpHeaders();
+    }
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+  }
 
   // Récupérer les commentaires d'un article
   getComments(articleId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/articles/${articleId}/comments`, { headers: this.headers });
+    return this.http.get(`${this.apiUrl}/articles/${articleId}/comments`, {
+      headers: this.getHeaders(),
+    });
   }
 
   // Ajouter un commentaire
-  addComment(comment: { article_id: number; content: string }): Observable<any> {
-    return this.http.post(`${this.apiUrl}/comments`, comment, { headers: this.headers });
+  addComment(comment: {
+    article_id: number;
+    content: string;
+    parent_id?: number | null;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/comments`, comment, {
+      headers: this.getHeaders(),
+    });
   }
 }

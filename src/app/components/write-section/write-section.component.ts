@@ -15,7 +15,7 @@ import { ArticleService } from '../../services/article.service';
 export class WriteSectionComponent {
   title: string = ''; // Titre de l'article
   content: string = '';
-  author: string = ''; // Contenu de l'article
+  // author: string = ''; // Contenu de l'article
   image: File | null = null; // Fichier d'image pour l'article
   selectedCategory: string = ''; // Catégorie sélectionnée
   categories: string[] = ['Depression', 'Anxiety', 'Trauma & Healing', 'OCD']; // Liste des catégories disponibles
@@ -40,7 +40,7 @@ export class WriteSectionComponent {
       return;
     }
     console.log('Titre :', this.title);
-    console.log('author :', this.author);
+    // console.log('author :', this.author);
     console.log('Catégorie :', this.selectedCategory);
     console.log('Contenu :', this.content);
     console.log('Image :', this.image?.name || "Pas d'image");
@@ -48,7 +48,7 @@ export class WriteSectionComponent {
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('content', this.content);
-    formData.append('author', this.author);
+    //formData.append('author', this.author);
     formData.append('category', this.selectedCategory);
     const currentDate = new Date().toISOString().split('T')[0]; // Format ISO (YYYY-MM-DD)
     formData.append('published_at', currentDate);

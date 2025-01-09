@@ -10,11 +10,17 @@ import { ArticleService } from '../../services/article.service';
 @Component({
   selector: 'app-selected-article',
   standalone: true, // Déclare ce composant comme standalone
-  imports: [CommonModule, HeaderComponent, ArticleComponent, AuthorComponent, CommentSectionComponent], // Importe le HeaderComponent ici
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    ArticleComponent,
+    AuthorComponent,
+    CommentSectionComponent,
+  ], // Importe le HeaderComponent ici
   templateUrl: './selected-article.component.html',
-  styleUrls: ['./selected-article.component.css']
+  styleUrls: ['./selected-article.component.css'],
 })
-export class SelectedArticleComponent implements OnInit{
+export class SelectedArticleComponent implements OnInit {
   articleData: any;
 
   constructor(
@@ -30,15 +36,15 @@ export class SelectedArticleComponent implements OnInit{
     if (articleId) {
       this.articleService.getArticleById(+articleId).subscribe(
         (data) => {
-          console.log('Données de l\'article récupérées :', data); // Debug
+          console.log("Données de l'article récupérées :", data); // Debug
           this.articleData = data;
           this.loading = false;
         },
         (error) => {
-          console.error('Erreur lors de la récupération de l\'article :', error);
+          console.error("Erreur lors de la récupération de l'article :", error);
           this.loading = false;
         }
       );
     }
-  }  
+  }
 }
