@@ -7,6 +7,7 @@ import { Observable, throwError } from 'rxjs';
 })
 export class CommentService {
   private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl2 = 'http://127.0.0.1:8000/api/comments';
 
   constructor(private http: HttpClient) {}
 
@@ -55,4 +56,12 @@ export class CommentService {
       headers: this.getHeaders(),
     });
   }
+
+  toggleLike(commentId: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/comments/${commentId}/like`,
+      {},
+      { headers: this.getHeaders() }
+    );
+  }  
 }

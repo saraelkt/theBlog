@@ -19,11 +19,12 @@
       <!-- Bouton Like -->
       <button
         class="flex items-center gap-1 text-gray-500 hover:text-green-600"
-        (click)="toggleLike()"
+        [class.text-green-600]="comment.liked"
+        (click)="toggleLike()" 
       >
         <svg
-          [class.fill-red-500]="liked"
-          [class.fill-gray-300]="!liked"
+          [class.fill-red-500]="comment.liked"
+          [class.fill-gray-300]="!comment.liked"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -55,7 +56,7 @@
             d="M12 20.25c4.97 0 9-3.701 9-8.25S16.97 3.75 12 3.75 3 7.451 3 12c0 1.735.754 3.318 2.02 4.575-.33 1.238-.99 2.623-2.02 3.925 1.356-.034 2.849-.3 4.087-.779 1.05.349 2.21.554 3.412.554z"
           />
         </svg>
-        <span class="text-sm text-gray-500">{{ comment.replies.length }}</span>
+        <span class="text-sm text-gray-500">{{ comment.replies?.length || 0 }}</span>
       </button>
     </div>
     <button
@@ -67,20 +68,6 @@
   </div>
 
   <!-- Champ pour écrire une réponse -->
-
-  <!-- Liste des réponses -->
-  <div *ngIf="showReplies" class="mt-4 ml-6 border-l-2 border-gray-200 pl-4">
-    <div *ngFor="let reply of comment.replies" class="mb-4">
-      <app-comment [comment]="reply"></app-comment>
-    </div>
-  </div>
-  <div *ngIf="showReplies" class="mt-4 ml-6 border-l-2 border-gray-200 pl-4">
-    <div *ngFor="let reply of comment.replies" class="mb-4">
-      <app-comment [comment]="reply"></app-comment>
-    </div>
-  </div>
-
-  <!-- Formulaire pour répondre -->
   <div
     *ngIf="replyMode"
     class="mt-4 bg-green-50 border border-green-200 rounded-lg p-4 relative"
@@ -89,14 +76,22 @@
       #replyInput
       class="w-full bg-transparent border-none outline-none text-gray-600 placeholder-gray-400 resize-none"
       rows="1"
-      placeholder="Type your reply to {{ comment.user }}"
+      placeholder="Type your reply to {{ comment.user.name }}"
       (input)="adjustHeight($event)"
     ></textarea>
-    <button
-      class="absolute bottom-3 right-4 bg-green-600 text-white p-2 rounded-full hover:bg-green-700"
-      (click)="addReply(replyInput.value)"
-    >
-      Reply
-    </button>
+     <button
+        class="absolute bottom-3 right-4 bg-green-600 text-white p-2 rounded-full hover:bg-green-700"
+        (click)="addReply(replyInput.value)"
+        >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
   </div>
+  <!-- Liste des réponses -->
+  <div *ngIf="showReplies" class="mt-4 ml-6 border-l-2 border-gray-200 pl-4">
+    <div *ngFor="let reply of comment.replies" class="mb-4">
+      <app-comment [comment]="reply"></app-comment>
+    </div>
+  </div>  
 </div>

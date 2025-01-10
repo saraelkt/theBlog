@@ -19,10 +19,10 @@ export class CommentComponent {
     date: string;
     content: string;
     likes: number;
+    liked: boolean;
     replies: any[];
   };
 
-  liked: boolean = false; // État du bouton "Like"
   showReplies: boolean = false; // Affichage des réponses
   replyMode: boolean = false; // Affichage du champ "Reply"
 
@@ -30,10 +30,18 @@ export class CommentComponent {
 
   // Méthode pour gérer les likes
   toggleLike() {
-    this.liked = !this.liked;
-    this.comment.likes += this.liked ? 1 : -1;
+    this.commentService.toggleLike(this.comment.id).subscribe(
+      (response) => {
+        this.comment.likes = response.likes; // Mettre à jour le nombre de likes
+        this.comment.liked = response.liked; // Mettre à jour l'état du like
+      },
+      (error) => {
+        console.error('Erreur lors de la mise à jour des likes :', error);
+      }
+    );
   }
-
+  
+  
   // Méthode pour afficher/masquer les réponses
   toggleReplies() {
     this.showReplies = !this.showReplies;
@@ -65,30 +73,16 @@ export class CommentComponent {
       if (!this.comment.replies) {
         this.comment.replies = []; // Initialiser les réponses si elles sont undefined
       }
-      this.comment.replies.push(tempReply);
-
       this.commentService.addComment(newReply).subscribe(
         (reply) => {
-          const index = this.comment.replies.findIndex(
-            (r) => r.id === tempReply.id
-          );
-          if (index > -1) {
-            this.comment.replies[index] = reply;
-          }
+          // Ajouter la réponse confirmée par l'API
+          this.comment.replies = [...(this.comment.replies || []), reply];
           this.replyMode = false; // Fermer le formulaire
-          (
-            document.querySelector(
-              `#replyInput-${this.comment.id}`
-            ) as HTMLTextAreaElement
-          ).value = ''; // Réinitialiser le champ
         },
         (error) => {
           console.error("Erreur lors de l'ajout de la réponse :", error);
-          this.comment.replies = this.comment.replies.filter(
-            (r) => r.id !== tempReply.id
-          );
         }
-      );
+      );      
     }
   }
 
@@ -97,4 +91,8 @@ export class CommentComponent {
     textarea.style.height = 'auto'; // Réinitialise la hauteur pour éviter l'accumulation
     textarea.style.height = `${textarea.scrollHeight}px`; // Ajuste la hauteur au contenu
   }
+  ngOnInit() {
+    console.log('Commentaire reçu :', this.comment);
+  }
+  
 }
