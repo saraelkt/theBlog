@@ -63,4 +63,35 @@ export class HeaderComponent {
     )
     .subscribe();
   }
+
+  ngOnInit(): void {
+    this.fetchUserProfile();
+  }
+  
+  fetchUserProfile(): void {
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      console.error('Aucun token trouvé dans localStorage');
+      this.userProfileImage = 'assets/images/default-profile.png'; // Définir l'image par défaut
+      return;
+    }
+  
+    const headers = { Authorization: `Bearer ${token}` };
+  
+    this.http
+      .get<any>('http://127.0.0.1:8000/api/user', { headers })
+      .subscribe({
+        next: (response) => {
+          this.userProfileImage = response.image
+            ? `http://127.0.0.1:8000/storage/${response.image}`
+            : 'assets/images/default-profile.png'; // Si aucune image, utiliser l'image par défaut
+        },
+        error: (error) => {
+          console.error('Erreur lors de la récupération de l’utilisateur connecté :', error);
+          this.userProfileImage = 'assets/images/default-profile.png'; // En cas d'erreur, définir une image par défaut
+        },
+      });
+  }
+  
 }
