@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,10 +24,25 @@ export class CommentService {
   }
 
   // Récupérer les commentaires d'un article
-  getComments(articleId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/articles/${articleId}/comments`, {
-      headers: this.getHeaders(),
+
+  getComments(articleId: number): Observable<any[]> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token is missing in localStorage.');
+      return throwError(() => new Error('Token is missing.'));
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
+
+    return this.http.get<any[]>(
+      `${this.apiUrl}/articles/${articleId}/comments`,
+      {
+        headers,
+        withCredentials: true, // Important pour inclure les cookies
+      }
+    );
   }
 
   // Ajouter un commentaire

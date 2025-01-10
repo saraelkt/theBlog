@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root', // Fournisseur global du service
@@ -28,9 +28,18 @@ export class ArticleService {
 
   // Méthode pour récupérer un article par son ID
   getArticleById(id: number): Observable<any> {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem('token')}`, // Ajouter le jeton
-    };
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('Token is missing.');
+      return throwError(() => new Error('Token is missing.'));
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    console.log('Request URL:', `${this.apiUrl}/${id}`);
+    console.log('Request Headers:', headers);
 
     return this.http.get<any>(`${this.apiUrl}/${id}`, { headers });
   }
