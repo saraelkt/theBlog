@@ -13,7 +13,7 @@ export class ArticleComponent implements OnInit {
   private _publishedDate: string = ''; // Stockage interne de la date de publication
 
   @Input() title: string = 'Default Title'; // Titre de l'article
-  @Input() author: string = 'Anonymous';   // Auteur de l'article
+  @Input() author: string = 'Anonymous'; // Auteur de l'article
   @Input() imageUrl: string = 'https://via.placeholder.com/800x400'; // URL de l'image
   @Input() articleId!: number; // ID de l'article
 
@@ -45,16 +45,26 @@ export class ArticleComponent implements OnInit {
 
   // Initialisation du composant
   ngOnInit() {
-    // Calcul initial si les valeurs sont déjà fournies
-    this.readingTime = this.calculateReadingTime(this.content);
-    this.formattedDate = this.formatDate(this.publishedDate);
-    // Récupérer le nombre de likes depuis le backend
-    this.http.get(`http://127.0.0.1:8000/api/articles/${this.articleId}`).subscribe(
-      (response: any) => {
-        this.likes = response.likes;
-        this.liked = response.userLiked; // Optionnel, si votre backend gère ça
-      }
-    );
+    if (this.articleId) {
+      console.log('Article ID utilisé dans ArticleComponent :', this.articleId);
+      // Récupérer les données de l'article
+      this.http
+        .get(`http://127.0.0.1:8000/api/articles/${this.articleId}`)
+        .subscribe(
+          (response: any) => {
+            this.likes = response.likes;
+            this.liked = response.userLiked;
+          },
+          (error) => {
+            console.error(
+              "Erreur lors de la récupération des données de l'article :",
+              error
+            );
+          }
+        );
+    } else {
+      console.error('articleId est undefined. Requête annulée.');
+    }
   }
 
   private calculateReadingTime(content: string): number {
@@ -78,7 +88,7 @@ export class ArticleComponent implements OnInit {
       day: 'numeric',
     };
     return new Intl.DateTimeFormat('en-US', options).format(date);
-  }  
+  }
 
   // Méthode pour gérer les likes
   toggleLike() {

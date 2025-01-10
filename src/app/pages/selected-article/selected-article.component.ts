@@ -33,7 +33,8 @@ export class SelectedArticleComponent implements OnInit {
 
   ngOnInit(): void {
     const articleId = this.route.snapshot.paramMap.get('id');
-    console.log('Article ID:', articleId); // Debug
+
+    console.log('Article ID récupéré dans ngOnInit :', articleId);
     if (articleId) {
       this.selectedArticleId = +articleId; // Assignez l'ID récupéré
       this.articleService.getArticleById(this.selectedArticleId).subscribe(

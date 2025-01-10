@@ -43,11 +43,15 @@ export class CommentSectionComponent implements OnInit {
 
   loadComments(): void {
     if (this._articleId) {
+      console.log(
+        'Chargement des commentaires pour articleId :',
+        this._articleId
+      ); // Debug
       this.commentService.getComments(this._articleId).subscribe(
         (comments: any[]) => {
           this.comments = comments;
         },
-        (error) => {
+        (error: any) => {
           console.error('Erreur lors du chargement des commentaires :', error);
         }
       );
