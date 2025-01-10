@@ -12,7 +12,10 @@ export class CommentComponent {
   @Input() comment!: {
     id: number;
     article_id: number;
-    user: string;
+    user: {
+      name: string;
+      image: string;
+    };
     date: string;
     content: string;
     likes: number;
@@ -50,13 +53,40 @@ export class CommentComponent {
         content: content.trim(),
       };
 
+      const tempReply = {
+        ...newReply,
+        id: Date.now(),
+        created_at: new Date().toISOString(),
+        user: { name: 'You', image: 'https://via.placeholder.com/40' },
+        likes: 0,
+      };
+
+      // Ajouter la réponse temporaire
+      if (!this.comment.replies) {
+        this.comment.replies = []; // Initialiser les réponses si elles sont undefined
+      }
+      this.comment.replies.push(tempReply);
+
       this.commentService.addComment(newReply).subscribe(
         (reply) => {
-          this.comment.replies.push(reply); // Ajouter la réponse
-          this.replyMode = false; // Fermer le formulaire de réponse
+          const index = this.comment.replies.findIndex(
+            (r) => r.id === tempReply.id
+          );
+          if (index > -1) {
+            this.comment.replies[index] = reply;
+          }
+          this.replyMode = false; // Fermer le formulaire
+          (
+            document.querySelector(
+              `#replyInput-${this.comment.id}`
+            ) as HTMLTextAreaElement
+          ).value = ''; // Réinitialiser le champ
         },
         (error) => {
           console.error("Erreur lors de l'ajout de la réponse :", error);
+          this.comment.replies = this.comment.replies.filter(
+            (r) => r.id !== tempReply.id
+          );
         }
       );
     }

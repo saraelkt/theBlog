@@ -11,6 +11,8 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   getUserWithArticles(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/user/${id}/profile-with-articles`);
+    return this.http.get<any>(
+      `${this.apiUrl}/user/${id}/profile-with-articles`
+    );
   }
 }
