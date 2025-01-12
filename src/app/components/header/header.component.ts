@@ -24,7 +24,7 @@ export class HeaderComponent {
   showDropdown: boolean = false;
 
   constructor(private http: HttpClient, private router: Router) {}
-
+  
   isOnArticlePage(): boolean {
     const url = this.router.url;
     // Vérifie si l'URL actuelle est "/article" ou commence par "/article/"
