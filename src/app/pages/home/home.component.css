@@ -41,3 +41,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* Style de la bannière */
+.banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f44336; /* Rouge vif pour l'avertissement */
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 9999; /* S'assurer que la bannière soit au-dessus du contenu */
+  display: none; /* Par défaut, la bannière est cachée */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.banner.show {
+  display: block;
+}
