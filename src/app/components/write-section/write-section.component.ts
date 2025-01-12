@@ -18,22 +18,24 @@ export class WriteSectionComponent {
   // author: string = ''; // Contenu de l'article
   image: File | null = null; // Fichier d'image pour l'article
   selectedCategory: string = ''; // Catégorie sélectionnée
-  categories: string[] = ['Depression',
-  'Anxiety',
-  'Trauma & Healing',
-  'OCD',
-  'Stress Management',
-  'Self-Care',
-  'Mindfulness & Meditation',
-  'PTSD',
-  'Bipolar Disorder',
-  'Eating Disorders',
-  'Relationships & Mental Health',
-  'Work-Life Balance',
-  'Addiction & Recovery',
-  'Youth Mental Health',
-  'Parenting & Mental Health',
-  'Sleep & Mental Health']; // Liste des catégories disponibles
+  categories: string[] = [
+    'Depression',
+    'Anxiety',
+    'Trauma & Healing',
+    'OCD',
+    'Stress Management',
+    'Self-Care',
+    'Mindfulness & Meditation',
+    'PTSD',
+    'Bipolar Disorder',
+    'Eating Disorders',
+    'Relationships & Mental Health',
+    'Work-Life Balance',
+    'Addiction & Recovery',
+    'Youth Mental Health',
+    'Parenting & Mental Health',
+    'Sleep & Mental Health',
+  ]; // Liste des catégories disponibles
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -77,8 +79,19 @@ export class WriteSectionComponent {
         this.router.navigate(['/home']); // Redirigez vers la page d'accueil après la publication
       },
       error: (error) => {
-        console.error('Error publishing article:', error);
-        alert('An error occurred while publishing the article.');
+        console.error("Erreur lors de la publication de l'article :", error);
+
+        // Afficher un message d'erreur spécifique si le contenu est inapproprié
+        if (
+          error?.error?.message &&
+          error.error.message.includes('Contenu inapproprié')
+        ) {
+          alert(
+            "Contenu inapproprié détecté dans l'article. Veuillez modifier le contenu."
+          );
+        } else {
+          alert("Une erreur est survenue lors de la publication de l'article.");
+        }
       },
     });
   }

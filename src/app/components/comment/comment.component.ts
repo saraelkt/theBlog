@@ -40,8 +40,7 @@ export class CommentComponent {
       }
     );
   }
-  
-  
+
   // Méthode pour afficher/masquer les réponses
   toggleReplies() {
     this.showReplies = !this.showReplies;
@@ -81,8 +80,12 @@ export class CommentComponent {
         },
         (error) => {
           console.error("Erreur lors de l'ajout de la réponse :", error);
+          // En cas d'erreur, vous pouvez également supprimer la réponse temporaire
+          this.comment.replies = this.comment.replies.filter(
+            (r) => r.id !== tempReply.id
+          );
         }
-      );      
+      );
     }
   }
 
@@ -94,5 +97,4 @@ export class CommentComponent {
   ngOnInit() {
     console.log('Commentaire reçu :', this.comment);
   }
-  
 }
