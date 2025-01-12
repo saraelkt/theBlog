@@ -13,6 +13,9 @@ import { ArticleService } from '../../services/article.service';
   styleUrls: ['./write-section.component.css'],
 })
 export class WriteSectionComponent {
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+
   title: string = ''; // Titre de l'article
   content: string = '';
   // author: string = ''; // Contenu de l'article
@@ -53,7 +56,7 @@ export class WriteSectionComponent {
   // Méthode pour soumettre l'article
   publishArticle(): void {
     if (!this.selectedCategory) {
-      alert('Please select a category before publishing!');
+      this.showError('Please select a category before publishing!');
       return;
     }
     console.log('Titre :', this.title);
@@ -75,8 +78,11 @@ export class WriteSectionComponent {
 
     this.articleService.addArticle(formData).subscribe({
       next: (response) => {
-        alert('Article published successfully!');
-        this.router.navigate(['/home']); // Redirigez vers la page d'accueil après la publication
+        this.showSuccess('Article published successfully!');
+      // Delay the redirection by 3 seconds to allow the success message to be displayed
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 2000); // 3000 ms = 3 seconds
       },
       error: (error) => {
         console.error("Erreur lors de la publication de l'article :", error);
@@ -86,15 +92,22 @@ export class WriteSectionComponent {
           error?.error?.message &&
           error.error.message.includes('Contenu inapproprié')
         ) {
-          alert(
-            "Contenu inapproprié détecté dans l'article. Veuillez modifier le contenu."
-          );
+          this.showError('Inappropriate content detected. Please modify your article.');
         } else {
-          alert("Une erreur est survenue lors de la publication de l'article.");
+          this.showError('An error occurred while publishing the article.');
         }
       },
     });
   }
+  showSuccess(message: string) {
+    this.successMessage = message;
+    setTimeout(() => (this.successMessage = null), 3000); // Auto-dismiss after 3 seconds
+  }
+  
+  showError(message: string) {
+    this.errorMessage = message;
+    setTimeout(() => (this.errorMessage = null), 3000);
+  }  
   adjustHeight(event: Event): void {
     const textarea = event.target as HTMLTextAreaElement;
     // Vérifiez si la hauteur du contenu dépasse la hauteur fixe (80px ici)

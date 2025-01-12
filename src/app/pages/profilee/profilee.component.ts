@@ -13,6 +13,11 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./profilee.component.css']
 })
 export class ProfileeComponent implements OnInit {
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+  showConfirmationModal: boolean = false; // Controls the visibility of the modal
+  articleToDelete: number | null = null; // Stores the ID of the article to delete
+
   userProfile = {
     id: 0,
     name: '',
@@ -92,20 +97,23 @@ export class ProfileeComponent implements OnInit {
     }).subscribe(
       (response) => {
         console.log('Profil mis à jour:', response);
-        alert('Profil mis à jour avec succès !');
+        this.showSuccess('Profile updated successfully!');
         this.isEditing = false; // Quitter le mode édition après la sauvegarde
       },
       (error) => {
         console.error('Erreur lors de la mise à jour du profil:', error);
-        alert('Une erreur est survenue lors de la mise à jour du profil.');
+        this.showError('An error occurred while updating the profile.');
       }
     );
-  }  
+  }
+  
+  openDeleteConfirmation(articleId: number): void {
+    this.articleToDelete = articleId; // Stocke l'ID de l'article à supprimer
+  }
 
   deleteArticle(articleId: number): void {
-    const confirmDelete = confirm('Are you sure you want to delete this article?');
   
-    if (confirmDelete) {
+    if (this.articleToDelete !== null) {
       this.http
         .delete(`http://localhost:8000/api/articles/${articleId}`, {
           headers: {
@@ -115,14 +123,19 @@ export class ProfileeComponent implements OnInit {
         .subscribe(
           () => {
             this.articles = this.articles.filter((article) => article.id !== articleId);
-            alert('Article deleted successfully!');
+            this.showSuccess('Article deleted successfully!');
+            this.articleToDelete = null; // Réinitialise l'ID après suppression
           },
           (error) => {
             console.error('Error deleting article:', error);
-            alert('An error occurred while deleting the article.');
+            this.showError('An error occurred while deleting the article.');
+            this.articleToDelete = null; // Réinitialise l'ID en cas d'erreur
           }
         );
     }
+  }
+  cancelDeletion(): void {
+    this.articleToDelete = null; // Réinitialise l'ID et ferme le modal
   }
   
 
@@ -147,13 +160,24 @@ export class ProfileeComponent implements OnInit {
             console.log('Photo de profil mise à jour:', response);
             // Mettre à jour l'image localement avec le nouveau chemin
             this.userProfile.profileImage = `http://localhost:8000/storage/${response.image}`;
-            alert('Photo de profil mise à jour avec succès !');
+            this.showSuccess('Photo de profil mise à jour avec succès !');
           },
           (error) => {
             console.error('Erreur lors de la mise à jour de la photo de profil:', error);
-            alert('Une erreur est survenue lors de la mise à jour de la photo.');
+            this.showError('Une erreur est survenue lors de la mise à jour de la photo.');
           }
         );
     }
-  }    
+  }
+  
+  showSuccess(message: string): void {
+    this.successMessage = message;
+    setTimeout(() => (this.successMessage = null), 3000);
+  }
+  
+  showError(message: string): void {
+    this.errorMessage = message;
+    setTimeout(() => (this.errorMessage = null), 3000);
+  }
+  
 }
