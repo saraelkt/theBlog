@@ -21,14 +21,14 @@
           </a>
         </li>
         <li>
-          <a
+          <span
             class="text-gray-700 hover:text-green-700 transition duration-300"
-            routerLink="/article"
-            routerLinkActive="font-bold text-green-700"
+            [class.font-bold]="isOnArticlePage()"
+            [class.text-green-700]="isOnArticlePage()"
           >
             Article
-          </a>
-        </li>
+          </span>
+        </li>        
         <li>
           <a
             class="text-gray-700 hover:text-green-700 transition duration-300"
@@ -67,14 +67,6 @@
               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             >
               Profile
-            </a>
-          </li>
-          <li>
-            <a
-              routerLink="/settings"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-            >
-              Settings
             </a>
           </li>
           <li>
