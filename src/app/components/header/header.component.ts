@@ -25,6 +25,12 @@ export class HeaderComponent {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  isOnArticlePage(): boolean {
+    const url = this.router.url;
+    // Vérifie si l'URL actuelle est "/article" ou commence par "/article/"
+    return url === '/article' || url.startsWith('/article/');
+  }
+
   // Méthode pour obtenir l'image de profil
   getProfileImage(): string {
     return this.userProfileImage
