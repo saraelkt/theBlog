@@ -18,7 +18,22 @@ export class WriteSectionComponent {
   // author: string = ''; // Contenu de l'article
   image: File | null = null; // Fichier d'image pour l'article
   selectedCategory: string = ''; // Catégorie sélectionnée
-  categories: string[] = ['Depression', 'Anxiety', 'Trauma & Healing', 'OCD']; // Liste des catégories disponibles
+  categories: string[] = ['Depression',
+  'Anxiety',
+  'Trauma & Healing',
+  'OCD',
+  'Stress Management',
+  'Self-Care',
+  'Mindfulness & Meditation',
+  'PTSD',
+  'Bipolar Disorder',
+  'Eating Disorders',
+  'Relationships & Mental Health',
+  'Work-Life Balance',
+  'Addiction & Recovery',
+  'Youth Mental Health',
+  'Parenting & Mental Health',
+  'Sleep & Mental Health']; // Liste des catégories disponibles
   constructor(
     private http: HttpClient,
     private router: Router,

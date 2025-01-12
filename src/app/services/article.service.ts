@@ -52,4 +52,13 @@ export class ArticleService {
 
     return this.http.delete(`${this.apiUrl}/${articleId}`, { headers });
   }
+
+  toggleLike(articleId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+  
+    return this.http.post(`${this.apiUrl}/${articleId}/like`, {}, { headers });
+  }
+  
 }
